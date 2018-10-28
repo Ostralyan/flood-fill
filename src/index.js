@@ -10,7 +10,10 @@ class Square extends React.Component {
 
   render() {
     const divStyle = {
-      backgroundColor: this.props.color
+      backgroundColor: this.props.color,
+      height: this.props.widthOfSquare,
+      width: this.props.widthOfSquare,
+      lineHeight: this.props.widthOfSquare,
     }
     return (
       <button
@@ -26,26 +29,31 @@ class Board extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
-    this.state.squares = [];
-    this.state.colors = [];
+    
+    this.state.colors = this.generateColors();
+    this.state.squares = this.generateSquares();
+  }
 
-    // refactor this when there are forms
-    for (let i = 0; i < 5; i++) {
-      this.state.colors[i] = '#' + (Math.random() * 0xFFFFFF << 0).toString(16);
+  generateColors() {
+    const colors = [];
+    for (let i = 0; i < this.props.numberOfColors; i++) {
+      colors[i] = '#' + (Math.random() * 0xFFFFFF << 0).toString(16);
     }
+    return colors;
+  }
 
-    // replace this with form value
-    const numberOfSquares = 3;
-
-    for(let i = 0; i < numberOfSquares; i++) {
-      this.state.squares[i] = [];
-      for(let j = 0; j < numberOfSquares; j++) {
-        this.state.squares[i][j] = {
+  generateSquares() {
+    const squares = []
+    for(let i = 0; i < this.props.squaresPerRow; i++) {
+      squares[i] = [];
+      for(let j = 0; j < this.props.squaresPerRow; j++) {
+        squares[i][j] = {
           color: this.getColor(),
           visited: false
         }
       }
     }
+    return squares;
   }
 
   floodFill(i, j) {
@@ -86,7 +94,7 @@ class Board extends React.Component {
   }
 
   getColor() {
-    const numberBetweenZeroAndFour = Math.floor((Math.random() * 5));
+    const numberBetweenZeroAndFour = Math.floor((Math.random() * this.props.numberOfColors));
     return this.state.colors[numberBetweenZeroAndFour];
   }
 
@@ -94,6 +102,7 @@ class Board extends React.Component {
     return <Square
       color={this.state.squares[i][j].color}
       onClick={() => this.floodFill(i, j)}
+      widthOfSquare={this.props.widthOfSquare}
     />;
   }
 
@@ -124,20 +133,57 @@ class Game extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
+    this.state.widthOfSquare = 50;
+    this.state.squaresPerRow = 3;
+    this.state.numberOfColors = 3;
+
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleChange(event) {
+    this.setState({[event.target.name]: event.target.value });
+  }
+
+  handleSubmit(event) {
+    console.log(this.state.widthOfSquare);
+    console.log(this.state.squaresPerRow);
+    console.log(this.state.numberOfColors);
+    event.preventDefault();
   }
 
   render() {
     return (
       <div className="game">
-        <p>
-          Instructions: Click on any square.
-        </p>
         <div className="game-board">
-          <Board />
+          <form onSubmit={this.handleSubmit}>
+            <label>
+              Width of square:
+              <input type="number" name="widthOfSquare" value={this.state.widthOfSquare} onChange={this.handleChange} />
+            </label>
+            <br></br>
+            <label>
+              Squares per row:
+              <input type="number" name="squaresPerRow" value={this.state.squaresPerRow} onChange={this.handleChange} />
+            </label>
+            <br></br>
+            <label>
+              Number of colors:
+              <input type="number" name="numberOfColors" value={this.state.numberOfColors} onChange={this.handleChange} />
+            </label>
+            <br></br>
+            <input type="submit" value="Reset" />
+          </form>
+          <p>
+            Instructions: Click on any square.
+          </p>
+          <Board 
+            widthOfSquare={this.state.widthOfSquare}
+            squaresPerRow={this.state.squaresPerRow}
+            numberOfColors={this.state.numberOfColors}
+          />
         </div>
         <div className="game-info">
-          <div>{/* status */}</div>
-          <ol>{/* TODO */}</ol>
         </div>
       </div>
     );
