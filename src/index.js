@@ -9,11 +9,12 @@ class Square extends React.Component {
   }
 
   render() {
+    console.log(this.props.widthOfSquare);
     const divStyle = {
       backgroundColor: this.props.color,
-      height: this.props.widthOfSquare,
-      width: this.props.widthOfSquare,
-      lineHeight: this.props.widthOfSquare,
+      height: this.props.widthOfSquare + "px",
+      width: this.props.widthOfSquare + "px",
+      lineHeight: this.props.widthOfSquare + "px",
     }
     return (
       <button
@@ -29,37 +30,12 @@ class Board extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
-    
-    this.state.colors = this.generateColors();
-    this.state.squares = this.generateSquares();
-  }
-
-  generateColors() {
-    const colors = [];
-    for (let i = 0; i < this.props.numberOfColors; i++) {
-      colors[i] = '#' + (Math.random() * 0xFFFFFF << 0).toString(16);
-    }
-    return colors;
-  }
-
-  generateSquares() {
-    const squares = []
-    for(let i = 0; i < this.props.squaresPerRow; i++) {
-      squares[i] = [];
-      for(let j = 0; j < this.props.squaresPerRow; j++) {
-        squares[i][j] = {
-          color: this.getColor(),
-          visited: false
-        }
-      }
-    }
-    return squares;
   }
 
   floodFill(i, j) {
-    const oldColor = this.state.squares[i][j].color;
-    const newColor = this.getColor();
-    const squares = this.state.squares.slice();
+    const oldColor = this.props.squares[i][j].color;
+    const newColor = this.props.getColor();
+    const squares = this.props.squares.slice();
 
     this.getNextFloodFillState(squares, i, j, oldColor, newColor);
     this.clearVisisted(squares);
@@ -93,14 +69,9 @@ class Board extends React.Component {
     this.getNextFloodFillState(squares, i, j - 1, oldColor, newColor);
   }
 
-  getColor() {
-    const numberBetweenZeroAndFour = Math.floor((Math.random() * this.props.numberOfColors));
-    return this.state.colors[numberBetweenZeroAndFour];
-  }
-
   renderSquare(i, j) {
     return <Square
-      color={this.state.squares[i][j].color}
+      color={this.props.squares[i][j].color}
       onClick={() => this.floodFill(i, j)}
       widthOfSquare={this.props.widthOfSquare}
     />;
@@ -137,8 +108,12 @@ class Game extends React.Component {
     this.state.squaresPerRow = 3;
     this.state.numberOfColors = 3;
 
+    this.state.colors = this.generateColors();
+    this.state.squares = this.generateSquares();
+
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.getColor = this.getColor.bind(this);
   }
 
   handleChange(event) {
@@ -146,10 +121,40 @@ class Game extends React.Component {
   }
 
   handleSubmit(event) {
-    console.log(this.state.widthOfSquare);
-    console.log(this.state.squaresPerRow);
-    console.log(this.state.numberOfColors);
+    const newState = {
+      squares: this.generateSquares(),
+      colors: this.generateColors()
+    }
+    this.setState(newState);
     event.preventDefault();
+  }
+
+  generateColors() {
+    const colors = [];
+    for (let i = 0; i < this.state.numberOfColors; i++) {
+      colors[i] = '#' + (Math.random() * 0xFFFFFF << 0).toString(16);
+    }
+    console.log(colors);
+    return colors;
+  }
+
+  generateSquares() {
+    const squares = []
+    for(let i = 0; i < this.state.squaresPerRow; i++) {
+      squares[i] = [];
+      for(let j = 0; j < this.state.squaresPerRow; j++) {
+        squares[i][j] = {
+          color: this.getColor(),
+          visited: false
+        }
+      }
+    }
+    return squares;
+  }
+
+  getColor() {
+    const numberBetweenZeroAndFour = Math.floor((Math.random() * this.state.numberOfColors));
+    return this.state.colors[numberBetweenZeroAndFour];
   }
 
   render() {
@@ -181,6 +186,9 @@ class Game extends React.Component {
             widthOfSquare={this.state.widthOfSquare}
             squaresPerRow={this.state.squaresPerRow}
             numberOfColors={this.state.numberOfColors}
+            squares={this.state.squares}
+            colors={this.state.colors}
+            getColor={this.getColor}
           />
         </div>
         <div className="game-info">
