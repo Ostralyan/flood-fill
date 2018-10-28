@@ -25,52 +25,57 @@ class Square extends React.Component {
   class Board extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-          squares: [
-              [
-                {
-                    color: this.getColor(),
-                    visited: false,
-                },
-                {
-                    color: this.getColor(),
-                    visited: false,
-                },
-                {
-                    color: this.getColor(),
-                    visited: false,
-                },
-              ],
-              [
-                {
-                    color: this.getColor(),
-                    visited: false,
-                },
-                {
-                    color: this.getColor(),
-                    visited: false,
-                },
-                {
-                    color: this.getColor(),
-                    visited: false,
-                },
-              ],
-              [
-                {
-                    color: this.getColor(),
-                    visited: false,
-                },
-                {
-                    color: this.getColor(),
-                    visited: false,
-                },
-                {
-                    color: this.getColor(),
-                    visited: false,
-                },
-              ]
-          ]
-        };
+        this.state = {};
+
+        this.state.colors = [];
+        // refactor this when there are forms
+        for(let i = 0; i < 5; i++) {
+            this.state.colors[i] = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
+        }
+        this.state.squares = [
+            [
+              {
+                  color: this.getColor(),
+                  visited: false,
+              },
+              {
+                  color: this.getColor(),
+                  visited: false,
+              },
+              {
+                  color: this.getColor(),
+                  visited: false,
+              },
+            ],
+            [
+              {
+                  color: this.getColor(),
+                  visited: false,
+              },
+              {
+                  color: this.getColor(),
+                  visited: false,
+              },
+              {
+                  color: this.getColor(),
+                  visited: false,
+              },
+            ],
+            [
+              {
+                  color: this.getColor(),
+                  visited: false,
+              },
+              {
+                  color: this.getColor(),
+                  visited: false,
+              },
+              {
+                  color: this.getColor(),
+                  visited: false,
+              },
+            ]
+        ]
     }
 
     floodFill(i, j) {
@@ -92,7 +97,6 @@ class Square extends React.Component {
     }
 
     getNextFloodFillState(squares, i, j, oldColor, newColor) {
-
         // check out of bounds
         if (i < 0 || i > 2) return;
         if (j < 0 || j > 2) return;
@@ -104,7 +108,7 @@ class Square extends React.Component {
         if (squares[i][j].color !== oldColor) return;
         // set the current color to the new color and mark node as visited.
         squares[i][j].color = newColor;
-
+        // recurse through up, down, left, right boxes.
         this.getNextFloodFillState(squares, i + 1, j, oldColor, newColor);
         this.getNextFloodFillState(squares, i - 1, j, oldColor, newColor);
         this.getNextFloodFillState(squares, i, j + 1, oldColor, newColor);
@@ -113,21 +117,7 @@ class Square extends React.Component {
 
     getColor() {
         const numberBetweenZeroAndFour = Math.floor((Math.random() * 5));
-
-        switch(numberBetweenZeroAndFour) {
-            case 0: 
-                return "#e4b8bc";
-            case 1: 
-                return "#6e4646";
-            case 2: 
-                return "#6ad720";
-            case 3: 
-                return "#655dc8";
-            case 4: 
-                return "#fd099d";
-            default:
-                throw new Error("No color to be found")
-        }
+        return this.state.colors[numberBetweenZeroAndFour];
     }
 
     renderSquare(i, j) {
