@@ -26,56 +26,26 @@ class Board extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
-
+    this.state.squares = [];
     this.state.colors = [];
+
     // refactor this when there are forms
     for (let i = 0; i < 5; i++) {
       this.state.colors[i] = '#' + (Math.random() * 0xFFFFFF << 0).toString(16);
     }
-    this.state.squares = [
-      [
-        {
+
+    // replace this with form value
+    const numberOfSquares = 3;
+
+    for(let i = 0; i < numberOfSquares; i++) {
+      this.state.squares[i] = [];
+      for(let j = 0; j < numberOfSquares; j++) {
+        this.state.squares[i][j] = {
           color: this.getColor(),
-          visited: false,
-        },
-        {
-          color: this.getColor(),
-          visited: false,
-        },
-        {
-          color: this.getColor(),
-          visited: false,
-        },
-      ],
-      [
-        {
-          color: this.getColor(),
-          visited: false,
-        },
-        {
-          color: this.getColor(),
-          visited: false,
-        },
-        {
-          color: this.getColor(),
-          visited: false,
-        },
-      ],
-      [
-        {
-          color: this.getColor(),
-          visited: false,
-        },
-        {
-          color: this.getColor(),
-          visited: false,
-        },
-        {
-          color: this.getColor(),
-          visited: false,
-        },
-      ]
-    ]
+          visited: false
+        }
+      }
+    }
   }
 
   floodFill(i, j) {
@@ -173,8 +143,6 @@ class Game extends React.Component {
     );
   }
 }
-
-// ========================================
 
 ReactDOM.render(
   <Game />,
