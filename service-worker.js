@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/Ostralyan/flood-fill/precache-manifest.016b02a88ec64f5fb946e0daff40ebef.js"
+  "/flood-fill/precache-manifest.b98a4a6347f877a54397c02b9a37c339.js"
 );
 
 workbox.clientsClaim();
@@ -28,7 +28,7 @@ self.__precacheManifest = [].concat(self.__precacheManifest || []);
 workbox.precaching.suppressWarnings();
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
 
-workbox.routing.registerNavigationRoute("/Ostralyan/flood-fill/index.html", {
+workbox.routing.registerNavigationRoute("/flood-fill/index.html", {
   
   blacklist: [/^\/_/,/\/[^\/]+\.[^\/]+$/],
 });

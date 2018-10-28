@@ -1,13 +1,13 @@
 {
-  "main.css": "/Ostralyan/flood-fill/static/css/main.74dc910e.chunk.css",
-  "main.js": "/Ostralyan/flood-fill/static/js/main.b275098f.chunk.js",
-  "main.js.map": "/Ostralyan/flood-fill/static/js/main.b275098f.chunk.js.map",
-  "static/js/1.499bf8bc.chunk.js": "/Ostralyan/flood-fill/static/js/1.499bf8bc.chunk.js",
-  "static/js/1.499bf8bc.chunk.js.map": "/Ostralyan/flood-fill/static/js/1.499bf8bc.chunk.js.map",
-  "runtime~main.js": "/Ostralyan/flood-fill/static/js/runtime~main.a2d96539.js",
-  "runtime~main.js.map": "/Ostralyan/flood-fill/static/js/runtime~main.a2d96539.js.map",
-  "static/css/main.74dc910e.chunk.css.map": "/Ostralyan/flood-fill/static/css/main.74dc910e.chunk.css.map",
-  "index.html": "/Ostralyan/flood-fill/index.html",
-  "precache-manifest.016b02a88ec64f5fb946e0daff40ebef.js": "/Ostralyan/flood-fill/precache-manifest.016b02a88ec64f5fb946e0daff40ebef.js",
-  "service-worker.js": "/Ostralyan/flood-fill/service-worker.js"
+  "main.css": "/flood-fill/static/css/main.74dc910e.chunk.css",
+  "main.js": "/flood-fill/static/js/main.b275098f.chunk.js",
+  "main.js.map": "/flood-fill/static/js/main.b275098f.chunk.js.map",
+  "static/js/1.499bf8bc.chunk.js": "/flood-fill/static/js/1.499bf8bc.chunk.js",
+  "static/js/1.499bf8bc.chunk.js.map": "/flood-fill/static/js/1.499bf8bc.chunk.js.map",
+  "runtime~main.js": "/flood-fill/static/js/runtime~main.a9bcfe24.js",
+  "runtime~main.js.map": "/flood-fill/static/js/runtime~main.a9bcfe24.js.map",
+  "static/css/main.74dc910e.chunk.css.map": "/flood-fill/static/css/main.74dc910e.chunk.css.map",
+  "index.html": "/flood-fill/index.html",
+  "precache-manifest.b98a4a6347f877a54397c02b9a37c339.js": "/flood-fill/precache-manifest.b98a4a6347f877a54397c02b9a37c339.js",
+  "service-worker.js": "/flood-fill/service-worker.js"
 }
