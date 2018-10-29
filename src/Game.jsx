@@ -1,7 +1,7 @@
 import React from 'react';
-import { Board } from './Board.jsx';
+import Board from './Board';
 
-export class Game extends React.Component {
+export default class Game extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -76,7 +76,7 @@ export class Game extends React.Component {
               <input type="number" name="numberOfColors" value={this.state.numberOfColors} onChange={this.handleChange} />
             </label>
             <br></br>
-            <input type="submit" value="Reset" />
+            <input type="submit" value="Reset" /> (Work In Progress)
           </form>
           <p>
             Instructions: Click on any square.<br></br>

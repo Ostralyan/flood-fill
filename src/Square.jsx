@@ -1,9 +1,17 @@
 import React from 'react';
 
-export class Square extends React.Component {
+export default class Square extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
+  }
+
+  shouldComponentUpdate(nextProps) {
+    if (nextProps.color !== this.props.color) {
+      return true;
+    }
+
+    return false;
   }
 
   render() {
