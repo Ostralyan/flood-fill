@@ -1,5 +1,10 @@
 # Flood fill in ReactJS
 
+## To run locally
+`cd .../flood-fill`
+`npm run start`
+
+## Using a recursive algorithm
 ```javascript
   floodFill(i, j) {
     const oldColor = this.props.squares[i][j].color;
@@ -30,3 +35,8 @@
     this.floodFillHelper(squares, i, j - 1, oldColor, newColor);
   }
 ```
+
+## An iterative approach
+
+
+## Additional Optimizations
