@@ -80,7 +80,7 @@ export class Game extends React.Component {
           </form>
           <p>
             Instructions: Click on any square.<br></br>
-            <a href="https://github.com/ostralyan/flood-fill" target="_blank">Written by Luke Xu.</a>
+            <a href="https://github.com/ostralyan/flood-fill" target="_blank" rel="noopener noreferrer">Written by Luke Xu.</a>
           </p>
           <Board 
             widthOfSquare={this.state.widthOfSquare}
