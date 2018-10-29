@@ -2,6 +2,7 @@
 
 ## To run locally
 `cd .../flood-fill`
+
 `npm run start`
 
 ## Using a recursive algorithm
@@ -40,3 +41,15 @@
 
 
 ## Additional Optimizations
+Whenever we try to perform the flood fill algorithm on a given square. We only need to modify the color of the squares that are of same color as the original square.
+Therefore, we do not need to rerender every square but only the squares that have been modified.
+
+```javascript
+  shouldComponentUpdate(nextProps) {
+    if (nextProps.color !== this.props.color) {
+      return true;
+    }
+
+    return false;
+  }
+```
