@@ -14,7 +14,6 @@ export class Game extends React.Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.getColor = this.getColor.bind(this);
   }
 
   handleChange(event) {
@@ -80,7 +79,8 @@ export class Game extends React.Component {
             <input type="submit" value="Reset" />
           </form>
           <p>
-            Instructions: Click on any square.
+            Instructions: Click on any square.<br></br>
+            <a href="https://github.com/ostralyan/flood-fill" target="_blank">Written by Luke Xu.</a>
           </p>
           <Board 
             widthOfSquare={this.state.widthOfSquare}
@@ -88,10 +88,7 @@ export class Game extends React.Component {
             numberOfColors={this.state.numberOfColors}
             squares={this.state.squares}
             colors={this.state.colors}
-            getColor={this.getColor}
           />
-        </div>
-        <div className="game-info">
         </div>
       </div>
     );

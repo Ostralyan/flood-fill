@@ -58,6 +58,7 @@ export class Board extends React.Component {
       color={this.props.squares[i][j].color}
       onClick={() => this.floodFill(i, j)}
       widthOfSquare={this.props.widthOfSquare}
+      key={i + "," + j}
     />;
   }
 
@@ -71,7 +72,7 @@ export class Board extends React.Component {
         children.push(this.renderSquare(i, j))
       }
       //Create the parent and add the children
-      table.push(<div className="board-row">{children}</div>)
+      table.push(<div className="board-row" key={i}>{children}</div>)
     }
     return table
   }
