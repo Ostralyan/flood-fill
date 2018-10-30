@@ -5,7 +5,11 @@
 
 `npm run start`
 
+go to `http://localhost:3000`
+
 ## Using a recursive algorithm
+In this approach we mark all the squares that we've visited using depth first search so if we ever visit the square again we'll know to skip it.
+
 ```javascript
   floodFill(i, j) {
     const oldColor = this.props.squares[i][j].color;
@@ -39,6 +43,44 @@
 
 ## An iterative approach
 
+```javascript
+  floodFill(i, j) {
+    const oldColor = this.props.squares[i][j].color;
+    const newColor = this.getUniqueRandomColor(oldColor);
+    const squares = this.props.squares.slice();
+
+    const stack = [
+      [i, j]
+    ];
+    while (stack.length) {
+      const squareCoordinates = stack.pop();
+      
+      Array.prototype.push.apply(stack, this.floodFillHelper(squares, squareCoordinates[0], squareCoordinates[1], oldColor));
+      squares[squareCoordinates[0]][squareCoordinates[1]].visited = true;
+      squares[squareCoordinates[0]][squareCoordinates[1]].color = newColor;
+    }
+    this.clearVisisted(squares);
+    this.setState({ squares });
+  }
+
+  floodFillHelper(squares, i, j, oldColor) {
+    const viableSquares = []
+
+    if (i - 1 >= 0 && squares[i - 1][j].color === oldColor && !squares[i - 1][j].visited) {
+      viableSquares.push([i - 1, j]);
+    }
+    if (i + 1 < this.props.squaresPerRow && squares[i + 1][j].color === oldColor && !squares[i + 1][j].visited) {
+      viableSquares.push([i + 1, j]);
+    }
+    if (j - 1 >= 0 && squares[i][j - 1].color === oldColor && !squares[i][j - 1].visited) {
+      viableSquares.push([i, j - 1]);
+    }
+    if (j + 1 < this.props.squaresPerRow && squares[i][j + 1].color === oldColor && !squares[i][j + 1].visited) {
+      viableSquares.push([i, j + 1]);
+    }
+    return viableSquares;
+  }
+```
 
 ## Additional Optimizations
 Whenever we try to perform the flood fill algorithm on a given square. We only need to modify the color of the squares that are of same color as the original square.
