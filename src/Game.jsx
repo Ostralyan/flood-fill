@@ -8,6 +8,7 @@ export default class Game extends React.Component {
     this.state.widthOfSquare = 5;
     this.state.squaresPerRow = 20;
     this.state.numberOfColors = 3;
+    this.state.includeDiagonals = false;
 
     this.state.colors = this.generateColors(this.state.numberOfColors);
     this.state.squares = this.generateSquares(
@@ -17,20 +18,20 @@ export default class Game extends React.Component {
     );
 
     this.resetBoard = this.resetBoard.bind(this);
-
   }
 
-  resetBoard(widthOfSquare, squaresPerRow, numberOfColors) {
+  resetBoard(widthOfSquare, squaresPerRow, numberOfColors, includeDiagonals) {
     const colors = this.generateColors(numberOfColors);
 
     const state = {
       widthOfSquare,
       squaresPerRow,
       numberOfColors,
+      includeDiagonals,
       colors: colors,
       squares: this.generateSquares(colors, squaresPerRow, numberOfColors)
     }
-    
+
     this.setState(state);
   }
 
@@ -72,6 +73,7 @@ export default class Game extends React.Component {
             widthOfSquare={this.state.widthOfSquare}
             squaresPerRow={this.state.squaresPerRow}
             numberOfColors={this.state.numberOfColors}
+            includeDiagonals={this.state.includeDiagonals}
             squares={this.state.squares}
             colors={this.state.colors}
           />

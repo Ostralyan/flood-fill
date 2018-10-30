@@ -34,6 +34,13 @@ export default class Board extends React.Component {
     this.floodFillRecursiveHelper(squares, i - 1, j, oldColor, newColor);
     this.floodFillRecursiveHelper(squares, i, j + 1, oldColor, newColor);
     this.floodFillRecursiveHelper(squares, i, j - 1, oldColor, newColor);
+
+    if (this.props.includeDiagonals) {
+      this.floodFillRecursiveHelper(squares, i + 1, j + 1, oldColor, newColor);
+      this.floodFillRecursiveHelper(squares, i - 1, j + 1, oldColor, newColor);
+      this.floodFillRecursiveHelper(squares, i + 1, j + 1, oldColor, newColor);
+      this.floodFillRecursiveHelper(squares, i - 1, j - 1, oldColor, newColor);
+    }
   }
 
   floodFillIterative(i, j) {
@@ -62,6 +69,16 @@ export default class Board extends React.Component {
         [newI, newJ - 1],
         [newI, newJ + 1],
       ]);
+
+      if (this.props.includeDiagonals) {
+        Array.prototype.push.apply(stack, [
+          [newI - 1, newJ - 1],
+          [newI + 1, newJ - 1],
+          [newI - 1, newJ + 1],
+          [newI + 1, newJ + 1],
+        ]);
+      }
+
       nextSquare.visited = true;
       nextSquare.color = newColor;
     }
