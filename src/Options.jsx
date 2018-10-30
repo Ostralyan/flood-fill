@@ -37,6 +37,10 @@ export default class Options extends React.Component {
   render() {
     return (
       <div>
+        <p>
+          Instructions: Click on any square.<br></br>
+          <a href="https://github.com/ostralyan/flood-fill" target="_blank" rel="noopener noreferrer">Written by Luke Xu.</a>
+        </p>
         <form onSubmit={this.handleSubmit}>
         <label>
           Width of square:
@@ -64,10 +68,7 @@ export default class Options extends React.Component {
         <br></br>
         <input type="submit" value="Reset" />
       </form>
-      <p>
-        Instructions: Click on any square.<br></br>
-        <a href="https://github.com/ostralyan/flood-fill" target="_blank" rel="noopener noreferrer">Written by Luke Xu.</a>
-      </p>
+      <br></br>
     </div>
     );
   }
