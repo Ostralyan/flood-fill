@@ -4,10 +4,10 @@ export default class Options extends React.Component {
   constructor(props) {
     super(props)
     this.state = {};
-    this.state.widthOfSquare = 5;
-    this.state.squaresPerRow = 20;
-    this.state.numberOfColors = 3;
-    this.state.includeDiagonals = false;
+    this.state.widthOfSquare = this.props.widthOfSquare
+    this.state.squaresPerRow = this.props.squaresPerRow
+    this.state.numberOfColors = this.props.numberOfColors
+    this.state.includeDiagonals = this.props.includeDiagonals
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);

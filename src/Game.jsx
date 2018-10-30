@@ -5,8 +5,8 @@ export default class Game extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
-    this.state.widthOfSquare = 5;
-    this.state.squaresPerRow = 20;
+    this.state.widthOfSquare = 10;
+    this.state.squaresPerRow = 50;
     this.state.numberOfColors = 3;
     this.state.includeDiagonals = false;
 
@@ -68,6 +68,10 @@ export default class Game extends React.Component {
         <div className="game-board">
           <Options
             onReset={this.resetBoard}
+            widthOfSquare={this.state.widthOfSquare}
+            squaresPerRow={this.state.squaresPerRow}
+            numberOfColors={this.state.numberOfColors}
+            includeDiagonals={this.state.includeDiagonals}
           />
           <Board 
             widthOfSquare={this.state.widthOfSquare}
