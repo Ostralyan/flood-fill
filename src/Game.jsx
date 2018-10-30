@@ -5,9 +5,9 @@ export default class Game extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
-    this.state.widthOfSquare = 10;
-    this.state.squaresPerRow = 100;
-    this.state.numberOfColors = 2;
+    this.state.widthOfSquare = 1;
+    this.state.squaresPerRow = 300;
+    this.state.numberOfColors = 3;
 
     this.state.colors = this.generateColors();
     this.state.squares = this.generateSquares();

@@ -7,7 +7,7 @@ export default class Board extends React.Component {
     this.state = {};
   }
 
-  floodFill(i, j) {
+  floodFillRecursive(i, j) {
     const oldColor = this.props.squares[i][j].color;
     const newColor = this.getUniqueRandomColor(oldColor);
     const squares = this.props.squares.slice();
@@ -17,7 +17,7 @@ export default class Board extends React.Component {
     this.setState({ squares: squares });
   }
 
-  floodFillHelper(squares, i, j, oldColor, newColor) {
+  floodFillRecursiveHelper(squares, i, j, oldColor, newColor) {
     // check out of bounds
     if (i < 0 || i > this.props.squaresPerRow - 1) return;
     if (j < 0 || j > this.props.squaresPerRow - 1) return;
@@ -30,48 +30,54 @@ export default class Board extends React.Component {
     // set the current color to the new color and mark node as visited.
     squares[i][j].color = newColor;
     // recurse through up, down, left, right boxes.
-    this.floodFillHelper(squares, i + 1, j, oldColor, newColor);
-    this.floodFillHelper(squares, i - 1, j, oldColor, newColor);
-    this.floodFillHelper(squares, i, j + 1, oldColor, newColor);
-    this.floodFillHelper(squares, i, j - 1, oldColor, newColor);
+    this.floodFillRecursiveHelper(squares, i + 1, j, oldColor, newColor);
+    this.floodFillRecursiveHelper(squares, i - 1, j, oldColor, newColor);
+    this.floodFillRecursiveHelper(squares, i, j + 1, oldColor, newColor);
+    this.floodFillRecursiveHelper(squares, i, j - 1, oldColor, newColor);
   }
 
-  // floodFill(i, j) {
-  //   const oldColor = this.props.squares[i][j].color;
-  //   const newColor = this.getUniqueRandomColor(oldColor);
-  //   const squares = this.props.squares.slice();
+  floodFillIterative(i, j) {
+    const oldColor = this.props.squares[i][j].color;
+    const newColor = this.getUniqueRandomColor(oldColor);
+    const squares = this.props.squares.slice();
 
-  //   const stack = [
-  //     [i, j]
-  //   ];
-  //   while (stack.length) {
-  //     const squareCoordinates = stack.pop();
-      
-  //     Array.prototype.push.apply(stack, this.floodFillHelper(squares, squareCoordinates[0], squareCoordinates[1], oldColor));
-  //     squares[squareCoordinates[0]][squareCoordinates[1]].visited = true;
-  //     squares[squareCoordinates[0]][squareCoordinates[1]].color = newColor;
-  //   }
-  //   this.clearVisisted(squares);
-  //   this.setState({ squares });
-  // }
+    const stack = [
+      [i, j]
+    ];
+    while (stack.length) {
+      const squareCoordinates = stack.pop();
+      let newI = squareCoordinates[0];
+      let newJ = squareCoordinates[1];
 
-  // floodFillHelper(squares, i, j, oldColor) {
-  //   const viableSquares = []
+      if (newI < 0 || newI >= this.props.squaresPerRow) continue;
+      if (newJ < 0 || newJ >= this.props.squaresPerRow) continue;
+      let nextSquare = squares[newI][newJ];
 
-  //   if (i - 1 >= 0 && squares[i - 1][j].color === oldColor && !squares[i - 1][j].visited) {
-  //     viableSquares.push([i - 1, j]);
-  //   }
-  //   if (i + 1 < this.props.squaresPerRow && squares[i + 1][j].color === oldColor && !squares[i + 1][j].visited) {
-  //     viableSquares.push([i + 1, j]);
-  //   }
-  //   if (j - 1 >= 0 && squares[i][j - 1].color === oldColor && !squares[i][j - 1].visited) {
-  //     viableSquares.push([i, j - 1]);
-  //   }
-  //   if (j + 1 < this.props.squaresPerRow && squares[i][j + 1].color === oldColor && !squares[i][j + 1].visited) {
-  //     viableSquares.push([i, j + 1]);
-  //   }
-  //   return viableSquares;
-  // }
+      if (nextSquare.color !== oldColor) continue;
+      if (nextSquare.visited) continue;
+
+      Array.prototype.push.apply(stack, this.floodFillIterativeHelper(newI, newJ));
+      nextSquare.visited = true;
+      nextSquare.color = newColor;
+    }
+    this.setState({ squares });
+    this.clearVisisted(squares);
+
+  }
+
+  floodFillIterativeHelper(i, j) {
+    return [
+      [i - 1, j],
+      [i + 1, j],
+      [i, j - 1],
+      [i, j + 1],
+
+      [i - 1, j + 1],
+      [i + 1, j + 1],
+      [i - 1, j - 1],
+      [i + 1, j - 1],
+    ]
+  }
 
   getUniqueRandomColor(color) {
     const numberBetweenZeroAndFour = Math.floor((Math.random() * this.props.numberOfColors));
@@ -93,7 +99,7 @@ export default class Board extends React.Component {
   renderSquare(i, j) {
     return <Square
       color={this.props.squares[i][j].color}
-      onClick={() => this.floodFill(i, j)}
+      onClick={() => this.floodFillIterative(i, j)}
       widthOfSquare={this.props.widthOfSquare}
       key={i + "," + j}
     />;
