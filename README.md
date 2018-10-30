@@ -42,9 +42,9 @@ In this approach we mark all the squares that we've visited using depth first se
 ```
 
 ## An iterative approach
-
+The recursive solution is a much cleaner approach but it is limited by stack space. After about ~10,000 squares, we start to run into stack overflow problems. To solve that issue we can write an iterative solution so that we are no longer dependent on stack space.
 ```javascript
-  floodFill(i, j) {
+  floodFillIterative(i, j) {
     const oldColor = this.props.squares[i][j].color;
     const newColor = this.getUniqueRandomColor(oldColor);
     const squares = this.props.squares.slice();
@@ -54,31 +54,27 @@ In this approach we mark all the squares that we've visited using depth first se
     ];
     while (stack.length) {
       const squareCoordinates = stack.pop();
-      
-      Array.prototype.push.apply(stack, this.floodFillHelper(squares, squareCoordinates[0], squareCoordinates[1], oldColor));
-      squares[squareCoordinates[0]][squareCoordinates[1]].visited = true;
-      squares[squareCoordinates[0]][squareCoordinates[1]].color = newColor;
+      let newI = squareCoordinates[0];
+      let newJ = squareCoordinates[1];
+
+      if (newI < 0 || newI >= this.props.squaresPerRow) continue;
+      if (newJ < 0 || newJ >= this.props.squaresPerRow) continue;
+      let nextSquare = squares[newI][newJ];
+
+      if (nextSquare.color !== oldColor) continue;
+      if (nextSquare.visited) continue;
+
+      Array.prototype.push.apply(stack, [
+        [newI - 1, newJ],
+        [newI + 1, newJ],
+        [newI, newJ - 1],
+        [newI, newJ + 1],
+      ]);
+      nextSquare.visited = true;
+      nextSquare.color = newColor;
     }
-    this.clearVisisted(squares);
     this.setState({ squares });
-  }
-
-  floodFillHelper(squares, i, j, oldColor) {
-    const viableSquares = []
-
-    if (i - 1 >= 0 && squares[i - 1][j].color === oldColor && !squares[i - 1][j].visited) {
-      viableSquares.push([i - 1, j]);
-    }
-    if (i + 1 < this.props.squaresPerRow && squares[i + 1][j].color === oldColor && !squares[i + 1][j].visited) {
-      viableSquares.push([i + 1, j]);
-    }
-    if (j - 1 >= 0 && squares[i][j - 1].color === oldColor && !squares[i][j - 1].visited) {
-      viableSquares.push([i, j - 1]);
-    }
-    if (j + 1 < this.props.squaresPerRow && squares[i][j + 1].color === oldColor && !squares[i][j + 1].visited) {
-      viableSquares.push([i, j + 1]);
-    }
-    return viableSquares;
+    this.clearVisisted(squares);
   }
 ```
 

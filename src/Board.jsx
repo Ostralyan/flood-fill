@@ -56,27 +56,17 @@ export default class Board extends React.Component {
       if (nextSquare.color !== oldColor) continue;
       if (nextSquare.visited) continue;
 
-      Array.prototype.push.apply(stack, this.floodFillIterativeHelper(newI, newJ));
+      Array.prototype.push.apply(stack, [
+        [newI - 1, newJ],
+        [newI + 1, newJ],
+        [newI, newJ - 1],
+        [newI, newJ + 1],
+      ]);
       nextSquare.visited = true;
       nextSquare.color = newColor;
     }
     this.setState({ squares });
     this.clearVisisted(squares);
-
-  }
-
-  floodFillIterativeHelper(i, j) {
-    return [
-      [i - 1, j],
-      [i + 1, j],
-      [i, j - 1],
-      [i, j + 1],
-
-      [i - 1, j + 1],
-      [i + 1, j + 1],
-      [i - 1, j - 1],
-      [i + 1, j - 1],
-    ]
   }
 
   getUniqueRandomColor(color) {
