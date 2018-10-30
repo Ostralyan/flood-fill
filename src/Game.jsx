@@ -1,6 +1,6 @@
 import React from 'react';
 import Board from './Board';
-
+import Options from './Options';
 export default class Game extends React.Component {
   constructor(props) {
     super(props);
@@ -9,41 +9,46 @@ export default class Game extends React.Component {
     this.state.squaresPerRow = 20;
     this.state.numberOfColors = 3;
 
-    this.state.colors = this.generateColors();
-    this.state.squares = this.generateSquares();
+    this.state.colors = this.generateColors(this.state.numberOfColors);
+    this.state.squares = this.generateSquares(
+      this.state.colors,
+      this.state.squaresPerRow,
+      this.state.numberOfColors
+    );
 
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.resetBoard = this.resetBoard.bind(this);
+
   }
 
-  handleChange(event) {
-    this.setState({[event.target.name]: event.target.value });
-  }
+  resetBoard(widthOfSquare, squaresPerRow, numberOfColors) {
+    const colors = this.generateColors(numberOfColors);
 
-  handleSubmit(event) {
-    const newState = {
-      squares: this.generateSquares(),
-      colors: this.generateColors()
+    const state = {
+      widthOfSquare,
+      squaresPerRow,
+      numberOfColors,
+      colors: colors,
+      squares: this.generateSquares(colors, squaresPerRow, numberOfColors)
     }
-    this.setState(newState);
-    event.preventDefault();
+    
+    this.setState(state);
   }
 
-  generateColors() {
+  generateColors(numberOfColors) {
     const colors = [];
-    for (let i = 0; i < this.state.numberOfColors; i++) {
+    for (let i = 0; i < numberOfColors; i++) {
       colors[i] = '#' + (Math.random() * 0xFFFFFF << 0).toString(16);
     }
     return colors;
   }
 
-  generateSquares() {
+  generateSquares(colors, squaresPerRow, numberOfColors) {
     const squares = []
-    for(let i = 0; i < this.state.squaresPerRow; i++) {
+    for(let i = 0; i < squaresPerRow; i++) {
       squares[i] = [];
-      for(let j = 0; j < this.state.squaresPerRow; j++) {
+      for(let j = 0; j < squaresPerRow; j++) {
         squares[i][j] = {
-          color: this.getColor(),
+          color: this.getColor(colors, numberOfColors),
           visited: false
         }
       }
@@ -51,37 +56,18 @@ export default class Game extends React.Component {
     return squares;
   }
 
-  getColor() {
-    const numberBetweenZeroAndFour = Math.floor((Math.random() * this.state.numberOfColors));
-    return this.state.colors[numberBetweenZeroAndFour];
+  getColor(colors, numberOfColors) {
+    const numberBetweenZeroAndFour = Math.floor((Math.random() * numberOfColors));
+    return colors[numberBetweenZeroAndFour];
   }
 
   render() {
     return (
       <div className="game">
         <div className="game-board">
-          <form onSubmit={this.handleSubmit}>
-            <label>
-              Width of square:
-              <input type="number" name="widthOfSquare" value={this.state.widthOfSquare} onChange={this.handleChange} />
-            </label>
-            <br></br>
-            <label>
-              Squares per row:
-              <input type="number" name="squaresPerRow" value={this.state.squaresPerRow} onChange={this.handleChange} />
-            </label>
-            <br></br>
-            <label>
-              Number of colors:
-              <input type="number" name="numberOfColors" value={this.state.numberOfColors} onChange={this.handleChange} />
-            </label>
-            <br></br>
-            <input type="submit" value="Reset" /> (Work In Progress)
-          </form>
-          <p>
-            Instructions: Click on any square.<br></br>
-            <a href="https://github.com/ostralyan/flood-fill" target="_blank" rel="noopener noreferrer">Written by Luke Xu.</a>
-          </p>
+          <Options
+            onReset={this.resetBoard}
+          />
           <Board 
             widthOfSquare={this.state.widthOfSquare}
             squaresPerRow={this.state.squaresPerRow}

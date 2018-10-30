@@ -8,7 +8,7 @@
 go to `http://localhost:3000`
 
 ## Using a recursive algorithm
-In this approach we mark all the squares that we've visited using depth first search so if we ever visit the square again we'll know to skip it.
+In this approach we mark all the squares that we've visited using depth first search so if we visit the square again we'll know to skip it.
 
 ```javascript
   floodFillRecursive(i, j) {
@@ -27,7 +27,7 @@ In this approach we mark all the squares that we've visited using depth first se
     if (j < 0 || j > this.props.squaresPerRow - 1) return;
     // check if it's visited
     if (squares[i][j].visited) return;
-    // Indicate node has been visited
+    // indicate node has been visited
     squares[i][j].visited = true;
     // check if it's same color
     if (squares[i][j].color !== oldColor) return;
