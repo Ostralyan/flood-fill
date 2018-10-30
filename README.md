@@ -11,17 +11,17 @@ go to `http://localhost:3000`
 In this approach we mark all the squares that we've visited using depth first search so if we ever visit the square again we'll know to skip it.
 
 ```javascript
-  floodFill(i, j) {
+  floodFillRecursive(i, j) {
     const oldColor = this.props.squares[i][j].color;
     const newColor = this.getUniqueRandomColor(oldColor);
     const squares = this.props.squares.slice();
 
-    this.floodFillHelper(squares, i, j, oldColor, newColor);
+    this.floodFillRecursiveHelper(squares, i, j, oldColor, newColor);
     this.clearVisisted(squares);
     this.setState({ squares: squares });
   }
 
-  floodFillHelper(squares, i, j, oldColor, newColor) {
+  floodFillRecursiveHelper(squares, i, j, oldColor, newColor) {
     // check out of bounds
     if (i < 0 || i > this.props.squaresPerRow - 1) return;
     if (j < 0 || j > this.props.squaresPerRow - 1) return;
@@ -34,10 +34,10 @@ In this approach we mark all the squares that we've visited using depth first se
     // set the current color to the new color and mark node as visited.
     squares[i][j].color = newColor;
     // recurse through up, down, left, right boxes.
-    this.floodFillHelper(squares, i + 1, j, oldColor, newColor);
-    this.floodFillHelper(squares, i - 1, j, oldColor, newColor);
-    this.floodFillHelper(squares, i, j + 1, oldColor, newColor);
-    this.floodFillHelper(squares, i, j - 1, oldColor, newColor);
+    this.floodFillRecursiveHelper(squares, i + 1, j, oldColor, newColor);
+    this.floodFillRecursiveHelper(squares, i - 1, j, oldColor, newColor);
+    this.floodFillRecursiveHelper(squares, i, j + 1, oldColor, newColor);
+    this.floodFillRecursiveHelper(squares, i, j - 1, oldColor, newColor);
   }
 ```
 
